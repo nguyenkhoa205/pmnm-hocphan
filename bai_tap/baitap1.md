@@ -12,10 +12,10 @@ Tôi muốn học về phần mềm mã nguồn mở (FOSS) vì đây là môi t
 
 ## 3. Danh sách 5 phần mềm mã nguồn mở sử dụng hằng ngày
 
-| STT | Tên phần mềm | Mô tả ngắn | Giấy phép (License) |
+| STT | Tên phần mềm | Mục đích sử dụng hàng ngày của học sinh | Giấy phép (License) |
 | :---: | :--- | :--- | :--- |
-| **1** | **Visual Studio Code (Code - OSS)** | Trình chỉnh sửa mã nguồn nhẹ, linh hoạt và giàu hệ sinh thái extension. | **MIT License** |
-| **2** | **VLC Media Player** | Trình phát đa phương tiện hỗ trợ hầu hết các định dạng video và audio. | **GNU GPL v2+ / LGPL v2.1+** |
-| **3** | **GIMP** | Công cụ xử lý, chỉnh sửa ảnh đồ họa và thiết kế đa chức năng. | **GNU GPL v3+** |
-| **4** | **7-Zip** | Phần mềm nén và giải nén dữ liệu hiệu suất cao, hỗ trợ nhiều định dạng. | **GNU LGPL** *(Mã nguồn chính)* & **BSD 3-Clause** *(Một số phần phụ)* |
-| **5** | **LibreOffice** | Bộ ứng dụng văn phòng mã nguồn mở toàn diện (Soạn thảo văn bản, Bảng tính, Trình chiếu). | **Mozilla Public License (MPL v2.0)** |
+| **1** | **Mozilla Firefox** | Trình duyệt web nhẹ, mượt để tra cứu bài học và xem video học tập. | **Mozilla Public License (MPL v2.0)** |
+| **2** | **Visual Studio Code (Code-OSS)** | Viết code, làm bài tập tin học và thực hành các dự án cá nhân. | **MIT License** |
+| **3** | **VLC Media Player** | Mở các file bài giảng, video khóa học và nghe nhạc giải trí. | **GNU GPL v2+ / LGPL v2.1+** |
+| **4** | **7-Zip** | Giải nén đề thi, tài liệu học tập và file bài tập giáo viên gửi. | **GNU LGPL** *(Mã chính)* & **BSD 3-Clause** |
+| **5** | **LibreOffice** | Soạn thảo văn bản bài tập, làm slide thuyết trình bài học trên lớp. | **Mozilla Public License (MPL v2.0)** |
