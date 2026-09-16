@@ -1,3 +1,6 @@
+Vì sao chọn MIT thay vì GPL cho bài tập?
+
+kho bài tập
 Tôi chọn giấy phép MIT thay vì GPL cho kho bài tập môn học vì tính linh hoạt và tối giản của nó.
 
 Kho bài tập môn học chủ yếu mang tính chất tham khảo, học tập và chia sẻ kiến thức. Giấy phép MIT là một giấy phép cực kỳ nới lỏng (permissive), cho phép bất kỳ ai tự do sao chép, chỉnh sửa, thương mại hóa hay tích hợp mã nguồn này vào các dự án khác mà gần như không có ràng buộc—chỉ cần giữ lại thông báo bản quyền ban đầu.
