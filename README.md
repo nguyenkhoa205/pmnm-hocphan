@@ -19,3 +19,8 @@ Tôi muốn học về phần mềm mã nguồn mở (FOSS) vì đây là môi t
 | **3** | **Git** | Quản lý phiên bản mã nguồn | GNU GPL v2.0 |
 | **4** | **Python** | Lập trình và chạy các chương trình Python | Python Software Foundation License |
 | **5** | **Ubuntu** | Hệ điều hành máy tính | GNU GPL và các giấy phép mã nguồn mở khác |
+
+## Giấy phép
+Mã nguồn trong kho này được phát hành
+theo [Giấy phép MIT](LICENSE).
+SPDX-License-Identifier: MIT
