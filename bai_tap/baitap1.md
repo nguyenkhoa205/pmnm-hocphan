@@ -12,10 +12,10 @@ Tôi muốn học về phần mềm mã nguồn mở (FOSS) vì đây là môi t
 
 ## 3. Danh sách 5 phần mềm mã nguồn mở sử dụng hằng ngày
 
-| STT | Tên phần mềm | Mục đích sử dụng hàng ngày của học sinh | Giấy phép (License) |
+| STT | Phần mềm | Công dụng | Giấy phép |
 | :---: | :--- | :--- | :--- |
-| **1** | **Mozilla Firefox** | Trình duyệt web nhẹ, mượt để tra cứu bài học và xem video học tập. | **Mozilla Public License (MPL v2.0)** |
-| **2** | **Visual Studio Code (Code-OSS)** | Viết code, làm bài tập tin học và thực hành các dự án cá nhân. | **MIT License** |
-| **3** | **VLC Media Player** | Mở các file bài giảng, video khóa học và nghe nhạc giải trí. | **GNU GPL v2+ / LGPL v2.1+** |
-| **4** | **7-Zip** | Giải nén đề thi, tài liệu học tập và file bài tập giáo viên gửi. | **GNU LGPL** *(Mã chính)* & **BSD 3-Clause** |
-| **5** | **LibreOffice** | Soạn thảo văn bản bài tập, làm slide thuyết trình bài học trên lớp. | **Mozilla Public License (MPL v2.0)** |
+| **1** | **Android** | Hệ điều hành cho điện thoại | Apache License 2.0 |
+| **2** | **Visual Studio Code** | Soạn thảo code, lập trình | MIT License |
+| **3** | **Git** | Quản lý phiên bản mã nguồn | GNU GPL v2.0 |
+| **4** | **Python** | Lập trình và chạy các chương trình Python | Python Software Foundation License |
+| **5** | **Ubuntu** | Hệ điều hành máy tính | GNU GPL và các giấy phép mã nguồn mở khác |
