@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy tính đơn giản</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #74ebd5, #9ace6a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 360px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #34495e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #2ea44f;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2ea44f;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: #22863a;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #eeeeee;
+            margin: 20px 0;
+        }
+
+        #ketqua {
+            text-align: center;
+            color: #1b5e20;
+            font-size: 18px;
+            min-height: 24px;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-card">
+        <h2>Phép toán cơ bản</h2>
+
+        <div class="input-group">
+            <label for="num1">Số 1:</label>
+            <input type="number" id="num1" placeholder="Nhập số thứ nhất">
+        </div>
+
+        <div class="input-group">
+            <label for="operation">Phép tính:</label>
+            <select id="operation">
+                <option value="+">Cộng (+)</option>
+                <option value="-">Trừ (-)</option>
+                <option value="*">Nhân (*)</option>
+                <option value="/">Chia (/)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="num2">Số 2:</label>
+            <input type="number" id="num2" placeholder="Nhập số thứ hai">
+        </div>
+
+        <button onclick="tinhToan()">Tính</button>
+
+        <hr>
+
+        <h3 id="ketqua"></h3>
+    </div>
+
+    <script>
+        function tinhToan() {
+            let n1 = parseFloat(document.getElementById('num1').value);
+            let n2 = parseFloat(document.getElementById('num2').value);
+            let op = document.getElementById('operation').value;
+            let res = 0;
+
+            if (isNaN(n1) || isNaN(n2)) {
+                document.getElementById('ketqua').innerText = "Lỗi: Vui lòng nhập đủ 2 số!";
+                document.getElementById('ketqua').style.color = "#d32f2f";
+                return;
+            }
+
+            if (op === '+') res = n1 + n2;
+            else if (op === '-') res = n1 - n2;
+            else if (op === '*') res = n1 * n2;
+            else if (op === '/') {
+                if (n2 === 0) {
+                    document.getElementById('ketqua').innerText = "Lỗi: Không thể chia cho 0!";
+                    document.getElementById('ketqua').style.color = "#d32f2f";
+                    return;
+                }
+                res = n1 / n2;
+            }
+
+            document.getElementById('ketqua').style.color = "#1b5e20";
+            document.getElementById('ketqua').innerText = "Kết quả: " + res;
+        }
+    </script>
+
+</body>
+</html>
