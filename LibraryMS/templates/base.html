@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        LibraryMS
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+
+    <header>
+        <h1>LibraryMS</h1>
+
+        <nav>
+            <a href="{{ url_for('index') }}">Trang chủ</a>
+            |
+            <a href="{{ url_for('books') }}">Danh sách sách</a>
+            |
+            <a href="{{ url_for('api_books') }}">API sách</a>
+        </nav>
+
+        <hr>
+    </header>
+
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <footer>
+        <hr>
+        <p>LibraryMS v0.1</p>
+    </footer>
+
+</body>
+</html>

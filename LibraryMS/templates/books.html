@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Danh sách sách - LibraryMS
+{% endblock %}
+
+
+{% block content %}
+
+<h2>Danh sách sách</h2>
+
+
+<h3>Lọc theo thể loại</h3>
+
+<a href="{{ url_for('books') }}">
+    Tất cả
+</a>
+
+{% for item in categories %}
+
+    |
+    
+    <a href="{{ url_for('books', category=item) }}">
+        {{ item }}
+    </a>
+
+{% endfor %}
+
+
+{% if category %}
+
+    <p>
+        Đang lọc theo thể loại:
+        <strong>{{ category }}</strong>
+    </p>
+
+{% endif %}
+
+
+<table border="1" cellpadding="8">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Năm</th>
+            <th>Thể loại</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+
+        {% for book in books %}
+
+        <tr>
+
+            <td>
+                {{ book["id"] }}
+            </td>
+
+
+            <td>
+                <a href="{{ url_for('book_detail', book_id=book['id']) }}">
+                    {{ book["title"] }}
+                </a>
+            </td>
+
+
+            <td>
+                {{ book["author"] }}
+            </td>
+
+
+            <td>
+                {{ book["year"] }}
+            </td>
+
+
+            <td>
+                {{ book["category"] }}
+            </td>
+
+
+            <td>
+
+                {% if book["available"] %}
+
+                    Sẵn sàng
+
+                {% else %}
+
+                    Đang được mượn
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% else %}
+
+        <tr>
+            <td colspan="6">
+                Không có sách phù hợp.
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
