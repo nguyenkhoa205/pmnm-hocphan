@@ -1,20 +1,6 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
 .venv/
 venv/
-env/
-
-# Flask
-instance/
-
-# IDE
+__pycache__/
+*.pyc
 .vscode/
-.idea/
-
-# Operating system
-.DS_Store
-Thumbs.db
+.env
