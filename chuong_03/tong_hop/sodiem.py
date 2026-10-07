@@ -48,25 +48,133 @@ def student_summary(mssv):
 
 def layout(title, body):
     escaped_title = escape(title)
-    home_url = url_for("index")
-    students_url = url_for("student_list")
-    search_url = url_for("search")
-    
     return f"""<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{escaped_title} - Sổ điểm</title>
+    <style>
+        :root {{
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }}
+        * {{ box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }}
+        .container {{
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.05);
+        }}
+        nav {{
+            display: flex;
+            gap: 12px;
+            background: #f1f5f9;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }}
+        nav a {{
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }}
+        nav a:hover {{
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }}
+        h1 {{
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 12px;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }}
+        th, td {{
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }}
+        th {{
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }}
+        tr:last-child td {{ border-bottom: none; }}
+        tr:hover td {{ background-color: #f1f5f9; }}
+        a {{ color: var(--primary); text-decoration: none; font-weight: 500; }}
+        a:hover {{ text-decoration: underline; }}
+        
+        /* Badges / Nút bấm / Input Form */
+        input[type="text"] {{
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 280px;
+            outline: none;
+            transition: border-color 0.2s;
+        }}
+        input[type="text"]:focus {{
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }}
+        button {{
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }}
+        button:hover {{ background: var(--primary-hover); }}
+        hr {{ border: none; border-top: 1px solid var(--border); margin: 20px 0; }}
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="{home_url}">Trang chủ</a> | 
-        <a href="{students_url}">Sinh viên</a> | 
-        <a href="{search_url}">Tìm kiếm sinh viên</a>
-    </nav>
-    <hr>
-    <h1>{escaped_title}</h1>
-    <div>{body}</div>
+    <div class="container">
+        <nav>
+            <a href="{url_for('index')}">Trang chủ</a>
+            <a href="{url_for('student_list')}">Sinh viên</a>
+            <a href="{url_for('search')}">Tìm kiếm</a>
+        </nav>
+        <h1>{escaped_title}</h1>
+        <div>{body}</div>
+    </div>
 </body>
 </html>"""
 
