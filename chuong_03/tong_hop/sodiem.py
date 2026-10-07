@@ -1,6 +1,7 @@
 import csv
 import io
-from flask import Flask, request, url_for, escape, redirect, abort, make_response, jsonify
+from flask import Flask, request, url_for, redirect, abort, make_response, jsonify
+from markupsafe import escape
 
 app = Flask(__name__)
 app.json.ensure_ascii = False
