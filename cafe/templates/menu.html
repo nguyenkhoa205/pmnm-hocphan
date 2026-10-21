@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực đơn - {{ shop.name }}</title>
+</head>
+<body>
+    <h1>Thực đơn - {{ shop.name }}</h1>
+
+    <ul>
+        {% for item in menu %}
+            <li>
+                {{ item.name }} - {{ "{:,}".format(item.price).replace(",", ".") }}đ
+                {% if not item.available %}<em>(hết hàng)</em>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ url_for('index') }}">← Về trang chủ</a></p>
+</body>
+</html>

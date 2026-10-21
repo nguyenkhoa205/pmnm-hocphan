@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ shop.name }}</title>
+</head>
+<body>
+    <h1>{{ shop.name }}</h1>
+    <p>Địa chỉ: {{ shop.address }}</p>
+    <p>Giờ mở cửa: {{ shop.open }}h - {{ shop.close }}h</p>
+
+    {% if is_open %}
+        <p class="open">Bây giờ là {{ hour }}h: quán đang mở cửa.</p>
+    {% else %}
+        <p class="closed">Bây giờ là {{ hour }}h: quán đã đóng cửa.</p>
+    {% endif %}
+
+    <h2>Khuyến mãi</h2>
+    <ul>
+        {% for promo in promotions %}
+            <li>{{ promo }}</li>
+        {% else %}
+            <li>Hiện chưa có khuyến mãi.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ url_for('menu') }}">Xem thực đơn →</a></p>
+</body>
+</html>
