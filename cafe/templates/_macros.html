@@ -1,0 +1,40 @@
+{# 1. Macro item_card(item) hiển thị 1 món dạng thẻ #}
+{% macro item_card(item) %}
+<div class="item-card {% if not item.available %}het-hang{% endif %}">
+    <h3>{{ item.name | title }}</h3>
+    <p>Giá: <strong>{{ item.price | vnd }}</strong></p>
+    <p>
+        {% if item.available %}
+            <span style="color: green;">Còn hàng</span>
+        {% else %}
+            <span class="het-hang-text">Hết hàng</span>
+        {% endif %}
+    </p>
+</div>
+{% endmacro %}
+
+{# 2. Macro pagination(page, pages, endpoint) hiển thị thanh phân trang #}
+{% macro pagination(page, pages, endpoint) %}
+{% if pages > 1 %}
+<div class="pagination">
+    {# Nút Trước #}
+    {% if page > 1 %}
+        <a href="{{ url_for(endpoint, page=page-1) }}">&laquo; Trước</a>
+    {% endif %}
+
+    {# Các số trang (Trang hiện tại in đậm, không phải liên kết) #}
+    {% for p in range(1, pages + 1) %}
+        {% if p == page %}
+            <strong>{{ p }}</strong>
+        {% else %}
+            <a href="{{ url_for(endpoint, page=p) }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {# Nút Sau #}
+    {% if page < pages %}
+        <a href="{{ url_for(endpoint, page=page+1) }}">Sau &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endmacro %}

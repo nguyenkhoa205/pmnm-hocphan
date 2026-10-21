@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thực đơn - {{ shop.name }}</title>
-</head>
-<body>
-    <h1>Thực đơn - {{ shop.name }}</h1>
+{% extends "base.html" %}
+{% from "_macros.html" import item_card, pagination %}
 
-    <ul>
-        {% for item in menu %}
-            <li>
-                {{ item.name }} - {{ "{:,}".format(item.price).replace(",", ".") }}đ
-                {% if not item.available %}<em>(hết hàng)</em>{% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+{% block title %}Thực đơn ({{ total_items }} món){% endblock %}
 
-    <p><a href="{{ url_for('index') }}">← Về trang chủ</a></p>
-</body>
-</html>
+{% block content %}
+    <h1>Thực đơn ({{ total_items }} món)</h1>
+
+    {% if menu %}
+        <div class="menu-grid">
+            {% for item in menu %}
+                {{ item_card(item) }}
+            {% endfor %}
+        </div>
+
+        {{ pagination(page, pages, 'menu') }}
+    {% else %}
+        <p>Chưa có món nào.</p>
+    {% endif %}
+{% endblock %}
