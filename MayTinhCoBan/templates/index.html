@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy tính cơ bản</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* Nền gradient 3 màu nổi bật */
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Thanh accent cầu vồng ở mép trên card */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 800;
+            /* Chữ dạng gradient */
+            background: linear-gradient(90deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.25s ease;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #8b5cf6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Đổi màu viền nổi bật khi gặp lỗi */
+        .input-error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            /* Nút gradient màu tím - hồng */
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.35);
+            transition: all 0.25s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(236, 72, 153, 0.45);
+            filter: brightness(1.05);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .result-title {
+            font-size: 0.8rem;
+            color: #047857;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .result-value {
+            font-size: 1.35rem;
+            color: #065f46;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Máy tính cơ bản</h1>
+
+        <form method="POST" action="{{ url_for('calc') }}">
+            <!-- Ô nhập số thứ nhất (a) -->
+            <div class="form-group">
+                <label for="a">Số thứ nhất (a):</label>
+                <input type="text" id="a" name="a" value="{{ a }}" 
+                       class="{% if errors.a %}input-error{% endif %}" 
+                       placeholder="Nhập số a...">
+                {% if errors.a %}
+                    <div class="error">{{ errors.a }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Chọn phép toán (op) -->
+            <div class="form-group">
+                <label for="op">Phép toán (op):</label>
+                <select id="op" name="op" class="{% if errors.op %}input-error{% endif %}">
+                    <option value="+" {% if op == '+' %}selected{% endif %}>Cộng (+)</option>
+                    <option value="-" {% if op == '-' %}selected{% endif %}>Trừ (-)</option>
+                    <option value="*" {% if op == '*' %}selected{% endif %}>Nhân (*)</option>
+                    <option value="/" {% if op == '/' %}selected{% endif %}>Chia (/)</option>
+                </select>
+                {% if errors.op %}
+                    <div class="error">{{ errors.op }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Ô nhập số thứ hai (b) -->
+            <div class="form-group">
+                <label for="b">Số thứ hai (b):</label>
+                <input type="text" id="b" name="b" value="{{ b }}" 
+                       class="{% if errors.b %}input-error{% endif %}" 
+                       placeholder="Nhập số b...">
+                {% if errors.b %}
+                    <div class="error">{{ errors.b }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit">Tính toán</button>
+        </form>
+
+        <!-- Khung kết quả -->
+        {% if result %}
+            <div class="result-box">
+                <div class="result-title">Kết quả</div>
+                <div class="result-value">{{ result }}</div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
