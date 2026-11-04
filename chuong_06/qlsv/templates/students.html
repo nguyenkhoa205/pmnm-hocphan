@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sinh viên</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #1e293b;
+            border-left: 5px solid #2563eb;
+            padding-left: 12px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #2563eb; /* Màu xanh chủ đạo cho tiêu đề */
+            color: #ffffff;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        /* Tô màu xen kẽ giữa các dòng */
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Hiệu ứng đổi màu nhẹ khi di chuột vào dòng */
+        tbody tr:hover {
+            background-color: #e0f2fe;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        /* Thẻ hiển thị điểm GPA làm nổi bật */
+        .gpa-badge {
+            display: inline-block;
+            background-color: #10b981; /* Màu xanh lá nổi bật */
+            color: white;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Danh sách Sinh viên</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT (ID)</th>
+                    <th>Mã Sinh Viên</th>
+                    <th>Họ và Tên</th>
+                    <th>Điểm GPA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in students %}
+                <tr>
+                    <td><strong>#{{ s.id }}</strong></td>
+                    <td><code>{{ s.mssv }}</code></td>
+                    <td>{{ s.name }}</td>
+                    <td><span class="gpa-badge">{{ "%.1f"|format(s.gpa) }}</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #64748b; padding: 20px;">
+                        Chưa có sinh viên nào trong CSDL.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a class="btn-link" href="/them-mau">+ Thêm 5 sinh viên mẫu</a>
+
+</body>
+</html>

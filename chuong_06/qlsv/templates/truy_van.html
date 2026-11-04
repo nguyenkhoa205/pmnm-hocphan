@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả Truy vấn & Bảng Sinh viên</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #1e293b;
+            border-left: 5px solid #4f46e5; /* Màu tím Indigo làm điểm nhấn */
+            padding-left: 12px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Khung hiển thị kết quả truy vấn 1-6 */
+        .box-result {
+            background-color: #ffffff;
+            border-left: 4px solid #6366f1;
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .box-result p {
+            font-size: 14.5px;
+            margin: 8px 0;
+            color: #334155;
+        }
+
+        .box-result code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 13.5px;
+        }
+
+        /* Khung chứa bảng danh sách */
+        .table-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #4f46e5; /* Màu tiêu đề tím Indigo nổi bật */
+            color: #ffffff;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        /* Dòng xen kẽ màu xám nhạt */
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Hiệu ứng rê chuột đổi màu dòng */
+        tbody tr:hover {
+            background-color: #e0e7ff;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        /* Thẻ điểm GPA màu xanh lá */
+        .gpa-badge {
+            display: inline-block;
+            background-color: #10b981;
+            color: white;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>I. Kết quả Truy vấn Dữ liệu</h2>
+    <div class="box-result">
+        <p><strong>1. get(3):</strong> <code>{{ sv_3 }}</code></p>
+        <p><strong>2. get(99):</strong> <code>{{ sv_99 }}</code></p>
+        <p><strong>3. Tất cả:</strong> <code>{{ everyone|length }} sinh viên</code></p>
+        <p><strong>4. Điểm >= 8:</strong> <code>{{ good }}</code></p>
+        <p><strong>5. MSSV 23T1020002:</strong> <code>{{ binh }}</code></p>
+        <p><strong>6. Số SV:</strong> <code>{{ count }}</code> | <strong>Điểm TB:</strong> <code>{{ "%.2f"|format(avg) }}</code></p>
+    </div>
+
+    <h2>II. Danh sách Sinh viên Chi tiết</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT (ID)</th>
+                    <th>Mã Sinh Viên</th>
+                    <th>Họ và Tên</th>
+                    <th>Điểm GPA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in everyone %}
+                <tr>
+                    <td><strong>#{{ s.id }}</strong></td>
+                    <td><code>{{ s.mssv }}</code></td>
+                    <td>{{ s.name }}</td>
+                    <td><span class="gpa-badge">{{ "%.1f"|format(s.gpa) }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a class="btn-link" href="/">← Quay lại Trang chủ</a>
+
+</body>
+</html>
