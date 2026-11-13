@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra - Quản Lý Sách</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('manage_categories') }}">QUẢN LÝ SÁCH</a>
+            <div class="navbar-nav">
+                <a class="nav-link {% if request.endpoint == 'manage_categories' %}active fw-bold{% endif %}"
+                   href="{{ url_for('manage_categories') }}">1. Danh mục Sách</a>
+                <a class="nav-link {% if request.endpoint == 'manage_books' %}active fw-bold{% endif %}"
+                   href="{{ url_for('manage_books') }}">2. Sách theo Danh mục</a>
+                <a class="nav-link {% if request.endpoint == 'dashboard' %}active fw-bold{% endif %}"
+                   href="{{ url_for('dashboard') }}">3. Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
