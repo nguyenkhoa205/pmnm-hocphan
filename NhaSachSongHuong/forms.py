@@ -1,8 +1,9 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
+from werkzeug.datastructures import FileStorage
 from wtforms import StringField, TextAreaField, IntegerField, SelectField, RadioField
-from wtforms.validators import DataRequired, Optional, Email, Regexp, NumberRange, ValidationError
+from wtforms.validators import DataRequired, InputRequired, Optional, Email, Regexp, NumberRange, ValidationError
 from sqlalchemy import func
 from models import Book, Category
 
@@ -13,7 +14,7 @@ class FileSizeLimit:
         self.max_mb = max_mb
 
     def __call__(self, form, field):
-        if field.data:
+        if isinstance(field.data, FileStorage) and field.data.filename:
             field.data.seek(0, 2)
             size = field.data.tell()
             field.data.seek(0)
@@ -67,6 +68,7 @@ class BookForm(FlaskForm):
         NumberRange(min=1000, message='Giá sách tối thiểu 1.000 đ.')
     ])
     stock = IntegerField('Tồn kho', validators=[
+        InputRequired(message='Vui lòng nhập số lượng tồn kho.'),
         NumberRange(min=0, message='Tồn kho không âm.')
     ])
     description = TextAreaField('Mô tả', validators=[Optional()])

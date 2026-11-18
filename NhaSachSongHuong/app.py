@@ -8,6 +8,7 @@ from flask import (
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from sqlalchemy import func, or_, extract
 
 from config import Config
@@ -320,7 +321,7 @@ def admin_dashboard():
         .scalar() or 0
     )
 
-    latest_orders = Order.query.order_by(Order.created_at.desc()).limit(5).all()
+    latest_orders = Order.query.order_by(Order.created_at.desc(), Order.id.desc()).limit(5).all()
     low_stock_books = Book.query.filter(Book.stock <= 5).order_by(Book.stock.asc()).all()
 
     chart_days = []
@@ -397,7 +398,7 @@ def admin_book_new():
     form = BookForm()
     if form.validate_on_submit():
         cover_filename = None
-        if form.cover_image.data:
+        if isinstance(form.cover_image.data, FileStorage) and form.cover_image.data.filename:
             cover_filename = save_uploaded_cover(form.cover_image.data)
 
         book = Book(
@@ -407,7 +408,7 @@ def admin_book_new():
             category_id=form.category_id.data,
             publish_year=form.publish_year.data,
             price=form.price.data,
-            stock=form.stock.data if form.stock.data is not None else 0,
+            stock=form.stock.data,
             description=form.description.data.strip() if form.description.data else None,
             cover_image=cover_filename
         )
@@ -430,10 +431,10 @@ def admin_book_edit(book_id):
         book.category_id = form.category_id.data
         book.publish_year = form.publish_year.data
         book.price = form.price.data
-        book.stock = form.stock.data if form.stock.data is not None else 0
+        book.stock = form.stock.data
         book.description = form.description.data.strip() if form.description.data else None
 
-        if form.cover_image.data:
+        if isinstance(form.cover_image.data, FileStorage) and form.cover_image.data.filename:
             old_cover = book.cover_image
             book.cover_image = save_uploaded_cover(form.cover_image.data)
             remove_cover_file(old_cover)
@@ -546,7 +547,9 @@ def admin_orders():
         query.with_entities(func.coalesce(func.sum(Order.total_amount), 0)).scalar() or 0
     )
 
-    pagination = query.order_by(Order.created_at.desc()).paginate(page=page, per_page=10, error_out=False)
+    pagination = query.order_by(Order.created_at.desc(), Order.id.desc()).paginate(
+        page=page, per_page=10, error_out=False
+    )
 
     return render_template(
         'admin/orders.html',
