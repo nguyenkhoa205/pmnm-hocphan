@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Thông tin khách hàng - Nhà sách Sông Hương{% endblock %}
+
+{% block content %}
+<h3 class="fw-bold mb-4">Thông tin khách hàng</h3>
+
+<div class="row g-4">
+  <div class="col-md-7">
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Họ tên *</label>
+        {{ form.customer_name(class="form-control" + (" is-invalid" if form.customer_name.errors else ""), placeholder="Nguyễn Văn An") }}
+        {% for err in form.customer_name.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Số điện thoại *</label>
+          {{ form.customer_phone(class="form-control" + (" is-invalid" if form.customer_phone.errors else ""), placeholder="0912345678") }}
+          {% for err in form.customer_phone.errors %}
+            <div class="invalid-feedback">{{ err }}</div>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Email</label>
+          {{ form.customer_email(class="form-control" + (" is-invalid" if form.customer_email.errors else ""), placeholder="ban@example.com") }}
+          {% for err in form.customer_email.errors %}
+            <div class="invalid-feedback">{{ err }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Địa chỉ giao hàng *</label>
+        {{ form.shipping_address(class="form-control" + (" is-invalid" if form.shipping_address.errors else ""), placeholder="12 Lê Lợi, phường Thuận Hoá, Huế") }}
+        {% for err in form.shipping_address.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Ghi chú</label>
+        {{ form.note(class="form-control", placeholder="Giao giờ hành chính...") }}
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label fw-semibold me-3">Thanh toán *</label>
+        {% for subfield in form.payment_method %}
+          <div class="form-check form-check-inline">
+            {{ subfield(class="form-check-input") }}
+            {{ subfield.label(class="form-check-label") }}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <button type="submit" class="btn btn-primary btn-lg px-4">Xác nhận đặt hàng</button>
+        <a href="{{ url_for('view_cart') }}" class="text-decoration-none">← Quay lại giỏ hàng</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-5">
+    <div class="card border-0 shadow-sm p-4">
+      <h5 class="fw-bold mb-3">Đơn hàng của bạn</h5>
+      {% for item in items %}
+        <div class="d-flex justify-content-between mb-2">
+          <span>{{ item.book.title }} × {{ item.quantity }}</span>
+          <span class="fw-semibold">{{ item.line_total|vnd }}</span>
+        </div>
+      {% endfor %}
+      <hr>
+      <div class="d-flex justify-content-between mb-2">
+        <span class="text-muted">Tạm tính</span>
+        <span>{{ subtotal|vnd }}</span>
+      </div>
+      <div class="d-flex justify-content-between mb-1">
+        <span class="text-muted">Phí giao hàng</span>
+        {% if shipping_fee == 0 %}
+          <span class="text-success fw-semibold">Miễn phí</span>
+        {% else %}
+          <span>{{ shipping_fee|vnd }}</span>
+        {% endif %}
+      </div>
+      <small class="text-muted d-block mb-3">Miễn phí khi tạm tính từ 200.000 ₫</small>
+      <hr>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-bold fs-5">Tổng thanh toán</span>
+        <span class="text-price fs-4">{{ grand_total|vnd }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

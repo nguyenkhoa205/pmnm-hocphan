@@ -1,0 +1,107 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Đơn hàng #{{ order.id }} - Quản trị{% endblock %}
+
+{% block content %}
+<small class="text-muted">Đơn hàng &gt; #{{ order.id }}</small>
+<h3 class="fw-bold mb-4">Đơn hàng #{{ order.id }} · {{ order.created_at.strftime('%d/%m/%Y %H:%M') }}</h3>
+
+<div class="row g-4">
+  <div class="col-md-8">
+    <div class="card border-0 shadow-sm p-3 mb-4">
+      <h6 class="fw-bold">Khách hàng</h6>
+      <div>{{ order.customer_name }} · {{ order.customer_phone }}</div>
+      <div>{{ order.shipping_address }}</div>
+      <div>Thanh toán: {{ order.payment_method }}</div>
+      {% if order.note %}
+        <small class="text-muted">Ghi chú: {{ order.note }}</small>
+      {% endif %}
+    </div>
+
+    <div class="card border-0 shadow-sm p-3">
+      <table class="table align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Sách</th>
+            <th>Đơn giá</th>
+            <th>SL</th>
+            <th class="text-end">Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items %}
+          <tr>
+            <td>{{ item.book.title }}</td>
+            <td>{{ item.unit_price|num_fmt }}</td>
+            <td>{{ item.quantity }}</td>
+            <td class="text-end">{{ (item.unit_price * item.quantity)|num_fmt }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end text-muted">Phí giao hàng</td>
+            <td class="text-end text-success fw-semibold">
+              {{ 'Miễn phí' if order.shipping_fee == 0 else order.shipping_fee|vnd }}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-end fw-bold">Tổng cộng</td>
+            <td class="text-end text-price fs-4">{{ order.total_amount|vnd }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <small class="text-muted">Đơn giá là giá tại thời điểm đặt (OrderItem.unit_price)</small>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm p-3 mb-4">
+      <h6 class="fw-bold">Trạng thái</h6>
+      <div class="mb-3">
+        {% set badge_cls = 'bg-warning-subtle text-warning-emphasis' if order.status == 'Chờ xác nhận'
+           else ('bg-primary-subtle text-primary' if order.status == 'Đang giao'
+           else ('bg-success-subtle text-success' if order.status == 'Hoàn tất' else 'bg-secondary-subtle text-secondary')) %}
+        <span class="badge rounded-pill {{ badge_cls }} fs-6">{{ order.status }}</span>
+      </div>
+
+      {% if next_select_options or can_cancel %}
+        {% if next_select_options %}
+        <form method="post" class="mb-2">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label class="form-label small text-muted">Chuyển sang</label>
+          <select name="new_status" class="form-select mb-3">
+            {% for st in next_select_options %}
+              <option value="{{ st }}">{{ st }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
+        </form>
+        {% endif %}
+
+        {% if can_cancel %}
+        <form method="post" onsubmit="return confirm('Xác nhận huỷ đơn hàng và hoàn lại tồn kho?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="new_status" value="Đã huỷ">
+          <button type="submit" class="btn btn-outline-danger w-100">Huỷ đơn</button>
+        </form>
+        {% endif %}
+      {% else %}
+        <small class="text-muted">Đơn hàng đã kết thúc, không thể thay đổi trạng thái.</small>
+      {% endif %}
+    </div>
+
+    <div class="card border-0 shadow-sm p-3">
+      <h6 class="fw-bold mb-3">Lịch sử</h6>
+      <ul class="list-unstyled mb-0">
+        {% for h in order.histories %}
+        <li class="mb-2">
+          <span class="text-primary me-2">●</span>
+          <strong>{{ h.changed_at.strftime('%d/%m %H:%M') }}</strong> ·
+          {{ 'Đặt hàng' if loop.first else h.status }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

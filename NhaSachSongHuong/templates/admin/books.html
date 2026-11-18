@@ -1,0 +1,110 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Quản lý sách - Quản trị{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="fw-bold mb-0">Sách ({{ pagination.total }})</h3>
+  <a href="{{ url_for('admin_book_new') }}" class="btn btn-primary">+ Thêm sách</a>
+</div>
+
+<form method="get" action="{{ url_for('admin_books') }}" class="row g-2 mb-3">
+  <div class="col-md-5">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Tìm tên sách, tác giả...">
+  </div>
+  <div class="col-md-3">
+    <select name="category_id" class="form-select">
+      <option value="">Mọi danh mục</option>
+      {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select name="stock_filter" class="form-select">
+      <option value="">Tồn kho</option>
+      <option value="in_stock" {% if stock_filter == 'in_stock' %}selected{% endif %}>Còn hàng (&gt; 5)</option>
+      <option value="low_stock" {% if stock_filter == 'low_stock' %}selected{% endif %}>Sắp hết (≤ 5)</option>
+      <option value="out_of_stock" {% if stock_filter == 'out_of_stock' %}selected{% endif %}>Hết hàng (= 0)</option>
+    </select>
+  </div>
+  <div class="col-md-1 d-grid">
+    <button type="submit" class="btn btn-primary">Lọc</button>
+  </div>
+</form>
+
+<div class="card border-0 shadow-sm mb-3">
+  <table class="table align-middle mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>Tên sách / Tác giả</th>
+        <th>Danh mục</th>
+        <th>Giá</th>
+        <th>Tồn</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in books %}
+      <tr>
+        <td>
+          <div class="d-flex align-items-center gap-3">
+            {% if b.cover_image %}
+              <img src="{{ url_for('static', filename='uploads/' + b.cover_image) }}"
+                   alt="{{ b.title }}" class="rounded border"
+                   style="width: 42px; height: 54px; object-fit: cover;">
+            {% else %}
+              <div class="rounded bg-light border d-flex align-items-center justify-content-center text-muted"
+                   style="width: 42px; height: 54px; font-size: 1.1rem;">
+                📘
+              </div>
+            {% endif %}
+            <div>
+              <div class="fw-bold">{{ b.title }}</div>
+              <small class="text-muted">{{ b.author }}</small>
+            </div>
+          </div>
+        </td>
+        <td>{{ b.category.name }}</td>
+        <td>{{ b.price|num_fmt }}</td>
+        <td>
+          <span class="{% if b.stock == 0 %}text-danger fw-bold{% elif b.stock <= 5 %}text-warning fw-bold{% endif %}">
+            {{ b.stock }}
+          </span>
+        </td>
+        <td>
+          <a href="{{ url_for('admin_book_edit', book_id=b.id) }}" class="text-decoration-none me-2">Sửa</a>
+          {% if b.id in ordered_book_ids %}
+            <span class="text-muted opacity-50" title="Sách đã có trong đơn hàng, không thể xoá">Xoá</span>
+          {% else %}
+            <form method="post" action="{{ url_for('admin_book_delete', book_id=b.id) }}" class="d-inline"
+                  onsubmit="return confirm('Xoá sách {{ b.title }}?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-link text-danger text-decoration-none p-0">Xoá</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-between align-items-center">
+  <small class="text-muted">
+    Hiển thị {{ (pagination.page - 1) * pagination.per_page + 1 if pagination.total > 0 else 0 }}–{{ [pagination.page * pagination.per_page, pagination.total]|min }} / {{ pagination.total }} sách
+  </small>
+  <nav>
+    <ul class="pagination pagination-sm mb-0">
+      {% for p in pagination.iter_pages() %}
+        {% if p %}
+          <li class="page-item {% if p == pagination.page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('admin_books', page=p, q=q, category_id=selected_category, stock_filter=stock_filter) }}">
+              {{ p }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}
